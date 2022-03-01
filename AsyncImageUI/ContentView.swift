@@ -41,11 +41,11 @@ struct ContentView: View {
         .padding(40)
          */
         //MARK: - 4. Phase
-        
+        /*
         AsyncImage(url: URL(string: imageURL)) { phase in
-//       Success: The image successfully loaded.
-//       Failure: The image failed to load with an error,
-//       Empty: No image is loaded
+            //Success: The image successfully loaded.
+            //Failure: The image failed to load with an error,
+            //Empty: No image is loaded
             if let image = phase.image {
                 image.imageModifier()
             } else if phase.error != nil {
@@ -55,7 +55,18 @@ struct ContentView: View {
             }
         }
         .padding(40)
+        */
         
+        //MARK: - 5. Animation
+        AsyncImage(url: URL(string: imageURL)) { phase in
+            switch phase {
+            case .success(let image): image.imageModifier()
+            case .failure(_): Image(systemName: "ant.circle.fill").iconModifier()
+            case .empty: Image(systemName: "photo.circle.fill").iconModifier()
+            @unknown default:
+                ProgressView()
+            }
+        }.padding(40)
     }
 }
 
