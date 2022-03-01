@@ -23,26 +23,39 @@ extension Image {
 }
 
 struct ContentView: View {
-    private let imageURL: String = "1https://credo.academy/credo-academy@3x.png"
+    private let imageURL: String = "https://credo.academy/credo-academy@3x.png"
     var body: some View {
         //MARK: - 1. Basic
         //AsyncImage(url: URL(string: imageURL))
         //MARK: - 2. Scale
         //AsyncImage(url: URL(string: imageURL), scale: 3.0)
         //MARK: - 3. Placeholder
+        /*
         AsyncImage(url: URL(string: imageURL)) {
             image in image
-                .resizable()
-                .scaledToFit()
+            .imageModifier()
         } placeholder: {
             Image(systemName: "photo.circle.fill")
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: 128)
-                .foregroundColor(.cyan)
-                .opacity(0.7)
+            .iconModifier()
         }
         .padding(40)
+         */
+        //MARK: - 4. Phase
+        
+        AsyncImage(url: URL(string: imageURL)) { phase in
+//       Success: The image successfully loaded.
+//       Failure: The image failed to load with an error,
+//       Empty: No image is loaded
+            if let image = phase.image {
+                image.imageModifier()
+            } else if phase.error != nil {
+                Image(systemName: "ant.circle.fill").iconModifier()
+            } else {
+                Image(systemName: "photo.circle.fill").iconModifier()
+            }
+        }
+        .padding(40)
+        
     }
 }
 
